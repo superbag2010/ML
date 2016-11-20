@@ -35,6 +35,10 @@ def load_data_and_labels(disease_data_file):
 	return [x_features, y]
 
 
-l = load_data_and_labels("./data.csv")
-print (l[0])
-print (l[1][0])
+if __name__ == "__main__":
+	"""
+	print data values are well loaded.
+	"""
+	l = load_data_and_labels("./data.csv")
+	print (l[0])
+	print (l[1][0])
