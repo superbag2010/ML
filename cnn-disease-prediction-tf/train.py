@@ -4,7 +4,6 @@ import processing_data
 # ============================================================
 # Set flags
 # ============================================================
-
 # Data loading params
 tf.flags.DEFINE_string("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
 tf.flags.DEFINE_string("data_file_location", "./data/data.csv", "Data source")
@@ -29,7 +28,6 @@ print ("==========================================\n")
 # ============================================================
 # Data Preparation
 # ============================================================
-
 # Load data
 print("Loading data...")
 x_features, y = processing_data.load_data_and_labels(FLAGS.data_file_location)
@@ -45,8 +43,6 @@ print("Train/Dev split: %s/%s" % (len(y_train), len(y_dev)))
 # ============================================================
 # Training
 # ============================================================
-
-
 with tf.Graph().as_default():
 # TODO: What is soft_placement, log_device_placement
 	session_conf = tf.ConfigProto(
