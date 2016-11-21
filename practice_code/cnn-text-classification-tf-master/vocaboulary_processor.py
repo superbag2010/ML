@@ -1,12 +1,12 @@
 import tensorflow as tf
 from pprint import pprint
 from tensorflow.contrib import learn
-from test_import import *
 import data_helpers
 import numpy as np
 import os
 import time
 import datetime
+
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
@@ -31,10 +31,12 @@ tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on 
 
 FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
+"""
 print("\nParameters:")
 for attr, value in sorted(FLAGS.__flags.items()):
-	    print("{}={}".format(attr.upper(), value))
+	print("{}={}".format(attr.upper(), value))
 print("")
+"""
 
 
 # Data Preparatopn
@@ -51,9 +53,10 @@ vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
 x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 #compare between i=0 and i=1, so can find default is matched into 4
-i = 1
+print ("put the number")
+i = int(input())
 len_of_i_x_text = len(x_text[i].split(" "))
 print ("x_text[%d] = %s" % (i, x_text[i]))
-print ("\napply fit_transform\n\n")
-print ("      len = %d" % len_of_i_x_text)
+print ("documetn len = %d" % len_of_i_x_text)
+print ("\napply fit_transform\n")
 print ("     x[%d] = %s\n" % (i, x[i]))

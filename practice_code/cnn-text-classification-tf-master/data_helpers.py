@@ -22,7 +22,12 @@ def clean_str(string):
     string = re.sub(r"\)", " \) ", string)
     string = re.sub(r"\?", " \? ", string)
     string = re.sub(r"\s{2,}", " ", string)
-    return string.strip().lower()
+    return string.strip().lower()	
+
+	# code interpret #
+	# change more than 2 white space into one white space, 
+	# "\s{n, m}" mean n~m white space
+
 
 
 def load_data_and_labels(positive_data_file, negative_data_file):
@@ -43,7 +48,8 @@ def load_data_and_labels(positive_data_file, negative_data_file):
     negative_labels = [[1, 0] for _ in negative_examples]
     y = np.concatenate([positive_labels, negative_labels], 0)
     return [x_text, y]
-
+# code interpret #
+# return [(sentence A, sentence B, ...), (label A, label B, ...)]
 
 def batch_iter(data, batch_size, num_epochs, shuffle=False):
     """
