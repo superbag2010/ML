@@ -50,6 +50,7 @@ def load_data_and_labels(positive_data_file, negative_data_file):
     return [x_text, y]
 # code interpret #
 # return [(sentence A, sentence B, ...), (label A, label B, ...)]
+# ex) [("Good day, today", "It's nice", ...), ([0, 1], [0, 1])]
 
 def batch_iter(data, batch_size, num_epochs, shuffle=False):
     """
