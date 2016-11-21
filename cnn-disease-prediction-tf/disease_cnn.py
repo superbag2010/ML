@@ -3,7 +3,7 @@ import numpy as np
 
 class DiseaseCNN(object):
 	
-	def __init__(self, num_attributes, num_classes, filter_sizes, num_filters, 12_reg_lambda=0.0):
+	def __init__(self, stride_window_size, num_attributes, num_classes, filter_sizes, num_filters, 12_reg_lambda=0.0):
 		# Plcaeholders for input, output and dropout
 		self.input_x = tf.placeholder(tf.float32, [None, num_attributes], name="input_x")
 		self.inpuy_y = tf.placeholder(tf.float32, [None, num_classes], name="input_y")
@@ -15,4 +15,4 @@ class DiseaseCNN(object):
 
 		# Embedding layer
 		with tf.device('\cpu:0'), tf.name_scope("embedding"):
-			W = random_uniform([
+			X = random_uniform([None, stride_window_size, num_attributes, 1], -1.0, 1.0), name="X")
