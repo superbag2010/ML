@@ -17,6 +17,7 @@ class TextCNN(object):
         self.dropout_keep_prob = tf.placeholder(tf.float32, name="dropout_keep_prob")
 
         # Keeping track of l2 regularization loss (optional)
+		# TODO : Don't know well
         l2_loss = tf.constant(0.0)
 
         # Embedding layer

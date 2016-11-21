@@ -52,6 +52,7 @@ def load_data_and_labels(positive_data_file, negative_data_file):
 # return [(sentence A, sentence B, ...), (label A, label B, ...)]
 # ex) [("Good day, today", "It's nice", ...), ([0, 1], [0, 1])]
 
+# TODO : don't know well this func
 def batch_iter(data, batch_size, num_epochs, shuffle=False):
     """
     Generates a batch iterator for a dataset.
