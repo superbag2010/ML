@@ -41,15 +41,19 @@ print("")
 # ==================================================
 
 # Load data
-print("Loading data...")
+print("Loading data...\n\n\n")
 x_text, y = data_helpers.load_data_and_labels(FLAGS.positive_data_file, FLAGS.negative_data_file)
 
-# Build vocabulary
+
+# Build vocabulary(make dictionary, one word-one index matching)
 max_document_length = max([len(x.split(" ")) for x in x_text])
 vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
 x = np.array(list(vocab_processor.fit_transform(x_text)))
 
-
-print ("max_document_length = %d\n" % max_document_length)
-print ("x = %s\n" % x)
-print ("dir(x) = %s\n" % dir(x))
+#compare between i=0 and i=1, so can find default is matched into 4
+i = 1
+len_of_i_x_text = len(x_text[i].split(" "))
+print ("x_text[%d] = %s" % (i, x_text[i]))
+print ("\napply fit_transform\n\n")
+print ("      len = %d" % len_of_i_x_text)
+print ("     x[%d] = %s\n" % (i, x[i]))
