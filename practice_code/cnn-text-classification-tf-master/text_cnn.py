@@ -33,12 +33,16 @@ class TextCNN(object):
             # ex) W = [voca1, voca2, ..., vocaN] = [[1, 0, 2, 3], [1, 2, 1, 1] ...]
             # guess input_x is "index" in "word imbedding dictionary"
             # so embedded_chars is result of each word embedded by word index.
-            # if one sentence composed of "I am a boy" and each index is (3, 100, 1, 4), ex) embedded_chars = [voca3, voca100, voca1, voca4]
+            # if one sentence1 composed of "I am a boy" and each index is (3, 100, 1, 4), 
+            # ex) embedded_chars = [sentence1, sentence2, ...] = [[voca3, voca100, voca1, voca4], ....]
 
             self.embedded_chars_expanded = tf.expand_dims(self.embedded_chars, -1)
 
         # Create a convolution + maxpool layer for each filter size
-        pooled_outputs = []
+        pooled_outputs = []   
+	# code interpret #
+	# collect all pooled outptut(by filter1, filter2, ..)
+
         for i, filter_size in enumerate(filter_sizes):
             with tf.name_scope("conv-maxpool-%s" % filter_size):
                 # Convolution Layer
@@ -63,7 +67,7 @@ class TextCNN(object):
                 pooled_outputs.append(pooled)
 
         # Combine all the pooled features
-        num_filters_total = num_filters * len(filter_sizes)
+        num_filters_total = num_filters * len(filter_sizes)  # the number of all filters
         self.h_pool = tf.concat(3, pooled_outputs)
         self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
 
@@ -81,7 +85,17 @@ class TextCNN(object):
             l2_loss += tf.nn.l2_loss(W)
             l2_loss += tf.nn.l2_loss(b)
             self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
+	    # code interpret #
+            # score = XW + B, maybe the number of filter = 384 
+            # X = shape(the number of sentence*384)
+            # W = shape(384*2)
+            # scores = shape(the number of sentence * 2)
+            #        = [[probability value that sentence1 is class1, probability value that sentence1 is class2], [p(S2->1), p(S2->2)], .....]
+
             self.predictions = tf.argmax(self.scores, 1, name="predictions")
+            # code interpret #
+            # return index of individual row that have highest value
+            # ex) predictions = [0, 1, 1, 0, 1, .....]
 
         # CalculateMean cross-entropy loss
         with tf.name_scope("loss"):

@@ -163,9 +163,15 @@ with tf.Graph().as_default():
             _, step, summaries, loss, accuracy = sess.run(
                 [train_op, global_step, train_summary_op, cnn.loss, cnn.accuracy],
                 feed_dict)
+
             time_str = datetime.datetime.now().isoformat()
             print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
+            # print data flow #
+            print ("****input_x****\n%s\n" % vars(cnn.input_x))
+            print ("****embedded_chars****\n%s\n" % vars(cnn.embedded_chars))
+
             train_summary_writer.add_summary(summaries, step)
+
 
         def dev_step(x_batch, y_batch, writer=None):
             """
