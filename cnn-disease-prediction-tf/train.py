@@ -20,8 +20,8 @@ print ("==========================================\nParameters:")
 
 # Print flag value
 for attr, value in sorted(FLAGS.__flags.items()):
-	    print("%s = %s" % (attr.upper(), value))
-		#print("{} = {}".format(attr.upper(), value))		
+    print("%s = %s" % (attr.upper(), value))
+    #print("{} = {}".format(attr.upper(), value))		
 print ("==========================================\n")
 
 
@@ -45,11 +45,11 @@ print("Train/Dev split: %s/%s" % (len(y_train), len(y_dev)))
 # ============================================================
 with tf.Graph().as_default():
 # TODO: What is soft_placement, log_device_placement
-	session_conf = tf.ConfigProto(
-    	allow_soft_placement=FLAGS.allow_soft_placement,
-		log_device_placement=FLAGS.log_device_placement)
-	sess = tf.Session(config=session_conf)
-#	with sess.as_default():
+    session_conf = tf.ConfigProto(
+    allow_soft_placement=FLAGS.allow_soft_placement,
+        log_device_placement=FLAGS.log_device_placement)
+        sess = tf.Session(config=session_conf)
+      # with sess.as_default():
 
 
 
