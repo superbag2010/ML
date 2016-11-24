@@ -15,5 +15,5 @@ class DiseaseCNN(object):
 
         # Embedding layer
         with tf.device('\cpu:0'), tf.name_scope("embedding"):
-	    X = random_uniform([None, stride_window_size, num_attributes, 1], -1.0, 1.0), name="X")
+            X = random_uniform([None, stride_window_size, num_attributes, 1], -1.0, 1.0), name="X")
             
