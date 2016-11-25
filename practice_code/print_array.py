@@ -18,4 +18,3 @@ array = np.array(array)
 print(array[:2])
 print(array.shape) # print shape
 
-print ()
