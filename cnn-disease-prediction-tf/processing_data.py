@@ -32,8 +32,8 @@ def load_data_and_labels(disease_data_file):
        	y = y + [attributes[-1]]
 
     return [x_features, y]
-
-
+    # return [ [[F11, F12, ...], [F21, F22, ...], ...], [L1, L2, ...] ]
+    # F = float, L = float
 
 if __name__ == "__main__":
 	"""
