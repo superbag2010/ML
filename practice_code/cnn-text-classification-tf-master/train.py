@@ -51,7 +51,7 @@ print("")
 print("Loading data...")
 x_text, y = data_helpers.load_data_and_labels(FLAGS.positive_data_file, FLAGS.negative_data_file)
 # code interpret
-# x_test, y = [(sentence A, sentence B, ...), (label A, label B, ...)]
+# x_test, y = [[sentence A, sentence B, ...], [label A, label B, ...]]
 
 
 # Build vocabulary
@@ -66,7 +66,7 @@ vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
 x = np.array(list(vocab_processor.fit_transform(x_text)))
 # code interpret #
 # makde word dictionary, set the number in order showed
-
+# x = [sentence 1, s2, S3] = [[index1, I3, I100,..], [I2, ..], [], ...]
 
 # Randomly shuffle data
 np.random.seed(10)
@@ -102,6 +102,13 @@ with tf.Graph().as_default():
             filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),
             num_filters=FLAGS.num_filters,
             l2_reg_lambda=FLAGS.l2_reg_lambda)
+        
+        # sequence_length = len(one sentence) = the number of word
+        # num_classes = the number of label
+        # vocab_szie = the number of work in dictionary
+        # embedding_size = the size of word vector
+        # filter_sizes = size of filter(height)
+
 
         # Define Training procedure
         global_step = tf.Variable(0, name="global_step", trainable=False)

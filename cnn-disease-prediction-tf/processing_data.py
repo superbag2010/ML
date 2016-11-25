@@ -27,12 +27,11 @@ def load_data_and_labels(disease_data_file):
     for one_day in disease_examples:
         one_day = clean_str(one_day)
        	attributes = list(map(float, one_day.split(",")))	#change to float
-		
        	feature = list(attributes[:feature_len])
        	x_features.append(feature)
        	y = y + [attributes[-1]]
 
-        return [x_features, y]
+    return [x_features, y]
 
 
 
@@ -40,6 +39,6 @@ if __name__ == "__main__":
 	"""
 	print data values are well loaded(test this file).
 	"""
-	l = load_data_and_labels("./data/data.csv")
-	print (l[0])
-	print (l[1][0])
+	x, y = load_data_and_labels("./data/data.csv")
+	print (x[3])
+#	print (l[0])
