@@ -67,6 +67,7 @@ x = np.array(list(vocab_processor.fit_transform(x_text)))
 # code interpret #
 # makde word dictionary, set the number in order showed
 # x = [sentence 1, s2, S3] = [[index1, I3, I100,..], [I2, ..], [], ...]
+# "index" is 1-dimension number(means index of word) 
 
 # Randomly shuffle data
 np.random.seed(10)
