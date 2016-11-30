@@ -104,9 +104,9 @@ with tf.Graph().as_default():
             num_filters=FLAGS.num_filters,
             l2_reg_lambda=FLAGS.l2_reg_lambda)
         
-        # sequence_length = len(one sentence) = the number of word
+        # sequence_length = max(len(one sentence)) = max(the number of word)
         # num_classes = the number of label
-        # vocab_szie = the number of work in dictionary
+        # vocab_size = the number of word in dictionary
         # embedding_size = the size of word vector
         # filter_sizes = size of filter(height)
 
