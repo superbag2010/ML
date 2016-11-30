@@ -13,3 +13,14 @@ print("shuffle_indices = {}".format(shuffle_indices))
 
 x_shuffled = x[shuffle_indices]
 print("x_shuffled = \n{}".format(x_shuffled))
+
+
+x = tf.constant(np.array([[0.0,1.0,2.0], [3.0,4.0,5.0], [0.6,0.7,0.8], [9.0,10.0,11.0]]))
+x_soft = tf.nn.softmax(x, -1)
+sess = tf.Session()
+print(sess.run(x_soft))
+
+
+a = [1,2]
+a.append([3])
+print(a)

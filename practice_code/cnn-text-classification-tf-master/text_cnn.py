@@ -96,6 +96,8 @@ class TextCNN(object):
             # code interpret #
             # return index of individual row that have highest value
             # ex) predictions = [0, 1, 1, 0, 1, .....]
+            self.softmax_scores = tf.nn.softmax(self.scores, -1, name="softmax_scores")
+
 
         # CalculateMean cross-entropy loss
         with tf.name_scope("loss"):
