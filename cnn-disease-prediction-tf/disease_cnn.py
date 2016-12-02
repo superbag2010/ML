@@ -12,7 +12,8 @@ class DiseaseCNN(object):
 
     def __init__(self, window_height, num_features, num_classes, filter_sizes, num_filters, l2_reg_lambda=0.0):
         # Plcaeholders for input, output and dropout
-        self.input_x = tf.placeholder(tf.float32, [None, window_height, num_features, 1], name="input_x")
+        self.input_x = tf.placeholder(tf.float32, [None, window_height, num_features], name="input_x")
+        self.expanded_input_x = tf.expand_dims(self.input_x, -1)
         self.input_y = tf.placeholder(tf.float32, [None, num_classes], name="input_y")
         self.dropout_keep_prob = tf.placeholder(tf.float32, name="dropout_keep_prob")
 
@@ -28,7 +29,7 @@ class DiseaseCNN(object):
                 W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1), name="W")
                 b = tf.Variable(tf.constant(0.1, shape=[num_filters]), name="b")
                 conv = tf.nn.conv2d(
-                    self.input_x,
+                    self.expanded_input_x,
                     W,                  # filter
                     strides=[1,1,1,1],
                     padding="VALID",    # no padding
@@ -78,15 +79,17 @@ class DiseaseCNN(object):
             l2_loss += tf.nn.l2_loss(b)
             # tf.nn.l2_loss(a) = sum(a^2)/2, element-wise
             self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
+            # scores = XW + b
+            # scores = [value1 about window1, value2, ....]
 
         # CalculateMean cross-entropy loss(as l2_reg_lambda, L2 reg is applied)
         with tf.name_scope("loss"):
-            losses = tf.nn.softmax_cross_entropy_with_logits(self.scores, self.input_y)
+            losses = tf.square(tf.sub(self.scores, self.input_y))
             self.loss = tf.reduce_mean(losses) + l2_reg_lambda * l2_loss
         # L2 reg => lambda*(w^2)/2
 
         # Accuracy
-        with tf.name_scope("accuracy"):
+        with tf.name_scope("RMSE"):
             subtraction = tf.sub(self.scores, self.input_y)
             deviation = tf.square(subtraction)
             MSE = tf.sqrt(deviation)

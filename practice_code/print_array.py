@@ -18,3 +18,5 @@ array = np.array(array)
 print(array[:2])
 print(array.shape) # print shape
 
+a = [None, 1]
+print(a)

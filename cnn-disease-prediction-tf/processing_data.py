@@ -29,10 +29,11 @@ def load_data_and_labels(disease_data_file):
        	attributes = list(map(float, one_day.split(",")))	#change to float
        	feature = list(attributes[:feature_len])
        	x_features.append(feature)
-       	y_input.append(attributes[-1])
+        #y_input.append(attributes[-1])
+        y_input = y_input + [attributes[-1]]
 
     return [x_features, y_input]
-    # return [ [[Feature11, F12, ...], [F21, F22, ...], ...], [L1, L2, ...] ]
+    # return [ [[Feature11, F12, ...], [F21, F22, ...], ...], [[L1], [L2], ..]]
     # F = float, L = float
 
 def grouping_data(x_features, y, window_height):
@@ -49,6 +50,26 @@ def grouping_data(x_features, y, window_height):
             break
     return [x_windows, y]
 
+def batch_iter(data, batch_size, num_epochs, shuffle=True):
+    """
+    Generates a batch iterator for a dataset.
+    """
+    data = np.array(data)
+    data_size = len(data)
+    num_batches_per_epoch = int(len(data)/batch_size) + 1
+    for epoch in range(num_epochs):
+        # Shuffle the data at each epoch
+        if shuffle:
+            shuffle_indices = np.random.permutation(np.arange(data_size))
+            shuffled_data = data[shuffle_indices]
+        else:
+            shuffled_data = data
+        for batch_num in range(num_batches_per_epoch):
+            start_index = batch_num * batch_size
+            end_index = min((batch_num + 1) * batch_size, data_size)
+            yield shuffled_data[start_index:end_index]
+
+
 if __name__ == "__main__":
     """
     print data values are well loaded(test this file).
@@ -59,4 +80,14 @@ if __name__ == "__main__":
     
     x_windows, y = grouping_data(x, y, 3)
     k = -1
+    y_array = np.array(y)
+    y_array = np.reshape(y_array, (-1, 1))
+    print("y_array.shape = {}".format(y_array.shape))
     print("x[{}] = {}, y[{}] = {}".format(k, x_windows[k], k, y[k]))
+
+    gs = batch_iter(list(zip(x_windows, y)), 3, 2)
+    """
+    for g in gs:
+        print(g)
+        a = input()
+    """

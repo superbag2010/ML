@@ -21,9 +21,11 @@ sess = tf.Session()
 print(sess.run(x_soft))
 
 
-a = [1,2]
+a = [[1],[2]]
+a_array = np.array(a)
 a.append([3])
 print(a)
+print(a_array.shape)
 
 
 num_filters_total = 6
@@ -39,7 +41,12 @@ with tf.name_scope("output"):
     l2_loss += tf.nn.l2_loss(b)
     l2 = tf.nn.l2_loss(x)
 #    self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
+
+    global_step = tf.Variable(0, name="global_step", trainable=False)
+
 init_op = tf.initialize_all_variables()
 sess.run(init_op)
 print(sess.run(W))
 print(sess.run(l2))
+
+print(sess.run(global_step))
