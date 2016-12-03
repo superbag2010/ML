@@ -77,7 +77,7 @@ with graph.as_default():
         # Generate batches for one epoch
         batches = processing_data.batch_iter(list(x_eval), FLAGS.batch_size, 1, shuffle=False)
 
-        # Collect the predictions here
+        # Collect the predictions here, collect in 1 batch unit
         all_scores = []
 
         for x_test_batch in batches:
