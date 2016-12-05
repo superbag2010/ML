@@ -14,6 +14,8 @@ import datetime
 # Data loading params
 tf.flags.DEFINE_string("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
 tf.flags.DEFINE_string("data_file_location", "./data/data.csv", "Data source")
+tf.flags.DEFINE_string("out_subdir", "", "state sub-directory")
+tf.flags.DEFINE_string("factor_value", "", "state value of factor to add in file name")
 
 # Model Hyperparameters
 tf.flags.DEFINE_integer("num_features", 21, "the number of feature attributes")
@@ -42,10 +44,18 @@ FLAGS = tf.flags.FLAGS  # empty flag data structure
 FLAGS._parse_flags()    # add flag data
 print ("==========================================\nParameters:")
 
-# Print flag value
+# Print and save flag value
+out_dir = os.path.abspath(os.path.join("..", "..", "result_disease_cnn", FLAGS.out_subdir, FLAGS.factor_value))
+if not os.path.exists(out_dir):
+    os.makedirs(out_dir)
+flag_file = os.path.abspath(os.path.join(out_dir, "flag.conf"))
+fd = open(flag_file, "w")
 for attr, value in sorted(FLAGS.__flags.items()):
-    print("%s = %s" % (attr.upper(), value))
+    str_flag = "{} = {}".format(attr.upper(), value)
+    print(str_flag)
+    fd.write(str_flag + "\n")
     #print("{} = {}".format(attr.upper(), value))		
+fd.close()
 print ("==========================================\n")
 
 
@@ -124,8 +134,8 @@ with tf.Graph().as_default():
         grad_summaries_merged = tf.merge_summary(grad_summaries)
 
         # Output directory for models and summaries
-        timestamp = str(int(time.time()))
-        out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs", timestamp))
+       #timestamp = str(int(time.time()))
+#       out_dir = os.path.abspath(os.path.join(os.path.curdir, "result_disease_cnn", timestamp))
         print("Writing to {}\n".format(out_dir))
 
         # Summaries for loss and accuracy

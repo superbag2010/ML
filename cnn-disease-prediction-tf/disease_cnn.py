@@ -71,11 +71,18 @@ class DiseaseCNN(object):
         # if dropout_keep_prob = 1.0, can use as eval model
 
         # NN layer
-#        with tf.name_scope("Completely_connected_NN1"):
-#            W = tf.get_variable(
-#                "w",
-#                shape =  
-
+        """
+        with tf.name_scope("Completely_connected_NN1"):
+            num_nodes = ??????????????????????????????????
+            W = tf.get_variable(
+                "W",
+                shape = [num_filters_total, num_nodes],
+                initializer_tf.contrib.layers.xavier_initializer())
+            b = tf.Variable(tf.constant(0.1, shape=[num_nodes], name="b")
+            l2_loss += tf.nn.ls_loss(W)
+            l2_loss += tf.nn.ls_loss(b)
+            
+        """
 
         # Final (unnormalized) scores and predictions
         with tf.name_scope("output"):
