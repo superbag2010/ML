@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import tensorflow as tf
 import numpy as np
 import processing_data
@@ -68,6 +70,13 @@ class DiseaseCNN(object):
             self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
         # if dropout_keep_prob = 1.0, can use as eval model
 
+        # NN layer
+#        with tf.name_scope("Completely_connected_NN1"):
+#            W = tf.get_variable(
+#                "w",
+#                shape =  
+
+
         # Final (unnormalized) scores and predictions
         with tf.name_scope("output"):
             W = tf.get_variable(
@@ -87,6 +96,7 @@ class DiseaseCNN(object):
             losses = tf.square(tf.sub(self.scores, self.input_y))
             self.loss = tf.reduce_mean(losses) + l2_reg_lambda * l2_loss
         # L2 reg => lambda*(w^2)/2
+        # mean MSE
 
         # Accuracy
         with tf.name_scope("RMSE"):

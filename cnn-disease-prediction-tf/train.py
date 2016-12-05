@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import tensorflow as tf
 import numpy as np
 import processing_data
@@ -17,11 +19,11 @@ tf.flags.DEFINE_string("data_file_location", "./data/data.csv", "Data source")
 tf.flags.DEFINE_integer("num_features", 21, "the number of feature attributes")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
-tf.flags.DEFINE_float("dropout_keep_prob", 0.5, "Dropout keep probability (default: 0.5)")
+tf.flags.DEFINE_float("dropout_keep_prob", 0.8, "Dropout keep probability (default: 0.5)")
 tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 0.0)")
 
 # Training parameters
-tf.flags.DEFINE_integer("batch_size", 8, "Batch Size (default: 8)")
+tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 8)")
 tf.flags.DEFINE_integer("num_epochs", 200, "Number of training epochs (default: 200)")
 tf.flags.DEFINE_integer("evaluate_every", 50, "Evaluate model on dev set after this many steps (default: 100)")
 tf.flags.DEFINE_integer("checkpoint_every", 50, "Save model after this many steps (default: 100)")
@@ -32,7 +34,7 @@ tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device 
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
 
 # Model Hyperparameters
-tf.flags.DEFINE_integer("window_height", 14, "the number of days needed to predict one day")
+tf.flags.DEFINE_integer("window_height", 7, "the number of days needed to predict one day")
 
 
 # Make flag, add flag data(._parse_flags())
@@ -150,7 +152,7 @@ with tf.Graph().as_default():
         # Initialize all variables
         sess.run(tf.initialize_all_variables())
 
-        # define strain step session
+        # define train step session
         def train_step(x_batch, y_batch):
             """
             A single training step
@@ -163,10 +165,11 @@ with tf.Graph().as_default():
             _, step, summaries, loss, RMSE = sess.run(
              [train_op, global_step, train_summary_op, cnn.loss, cnn.RMSE], feed_dict)
 
+            # print data flow #
             time_str = datetime.datetime.now().isoformat()
             print("{}: step {}, loss {:g}, RMSE {:g}".format(time_str, step, loss, RMSE))
-            # print data flow #
 
+            # add train summary
             train_summary_writer.add_summary(summaries, step)
 
 
@@ -184,6 +187,7 @@ with tf.Graph().as_default():
                 feed_dict)
             time_str = datetime.datetime.now().isoformat()
             print("{}: step {}, loss {:g}, RMSE {:g}".format(time_str, step, loss, RMSE))
+            # add dev summary
             if writer:
                 writer.add_summary(summaries, step)
 

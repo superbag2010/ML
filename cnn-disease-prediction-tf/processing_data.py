@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import re
 import numpy as np
 
@@ -50,13 +52,16 @@ def grouping_data(x_features, y, window_height):
             break
     return [x_windows, y]
 
-def batch_iter(data, batch_size, num_epochs, shuffle=True):
+def batch_iter(data, batch_size, num_epochs, shuffle=False):
     """
     Generates a batch iterator for a dataset.
     """
     data = np.array(data)
     data_size = len(data)
-    num_batches_per_epoch = int(len(data)/batch_size) + 1
+    if batch_size == 1:
+        num_batches_per_epoch = int(len(data))
+    else:
+        num_batches_per_epoch = int(len(data)/batch_size) + 1
     for epoch in range(num_epochs):
         # Shuffle the data at each epoch
         if shuffle:

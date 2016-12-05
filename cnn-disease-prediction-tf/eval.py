@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import tensorflow as tf
 import numpy as np
 import os
@@ -14,7 +16,7 @@ import csv
 tf.flags.DEFINE_string("data_file_location", "./data/data.csv", "Data source")
 
 # Eval Parameters
-tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
+tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 64)")
 tf.flags.DEFINE_string("checkpoint_dir", "", "Checkpoint directory from training run")
 tf.flags.DEFINE_boolean("eval_train", False, "Evaluate on all training data")
 
@@ -23,7 +25,7 @@ tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device 
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
 
 # Model Hyperparameters
-tf.flags.DEFINE_integer("window_height", 14, "the number of days needed to predict one day")
+tf.flags.DEFINE_integer("window_height", 7, "the number of days needed to predict one day")
 
 FLAGS = tf.flags.FLAGS
 FLAGS._parse_flags()
