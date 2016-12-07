@@ -55,8 +55,7 @@ print(c[-1])
 
 
 print("=============================")
-t = ["character", "number"]
-m = np.column_stack((["charactor"] + ['a', 'b'], ["number"] + ['1', '2']))
+m = np.column_stack(([["charactor"]] + [[1], [2]], [["number"]] + [[3], [4]]))
 print(m)
 out_path = os.path.join("./", "test.csv")
 #with open(out_path, 'w') as f:
