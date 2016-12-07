@@ -103,8 +103,8 @@ class DiseaseCNN(object):
             # tf.nn.l2_loss(a) = sum(a^2)/2, element-wise
             self.scores = tf.nn.xw_plus_b(self.NN_result[index+1], W, b, name="scores")
             # scores = XW + b
-            # scores = [integer1 about window1, i2, ....], integer mean result
-            # e.g. = [2300, 4000, 6800, ....]
+            # scores = [[integer1 about window1], [i2], ....], integer mean result
+            # e.g. = [[2300], [4000], [6800], ....]
         """
         with tf.name_scope("loss"):
             losses = tf.square(tf.sub(self.scores, self.input_y))

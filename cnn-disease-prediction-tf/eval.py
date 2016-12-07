@@ -96,8 +96,9 @@ if y_eval is not None:
     print("all_scores : \n{}".format(all_scores))
 
 # Save the evaluation to a csv
-predictions_human_readable = np.column_stack((["PREDICTED"] + all_scores, ["REAL"]y_eval))
+predictions_human_readable = np.column_stack((all_scores, y_eval))
 out_path = os.path.join(FLAGS.checkpoint_dir, "..", "prediction.csv")
 print("Saving evaluation to {0}".format(out_path))
 with open(out_path, 'w') as f:
+    csv.writer(f).writerows([["Predicted", "Real"]])
     csv.writer(f).writerows(predictions_human_readable)
