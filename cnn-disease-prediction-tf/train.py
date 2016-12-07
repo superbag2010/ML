@@ -18,7 +18,8 @@ tf.flags.DEFINE_string("out_subdir", "", "state sub-directory")
 tf.flags.DEFINE_string("factor_value", "", "state value of factor to add in file name")
 
 # Model Hyperparameters
-tf.flags.DEFINE_integer("num_features", 21, "the number of feature attributes")
+tf.flags.DEFINE_string("num_nodes", "10,8", "The comma-separated number of nodes each of layer (default: '10,8')")
+tf.flags.DEFINE_integer("num_features", 21, "The number of feature attributes")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.8, "Dropout keep probability (default: 0.5)")
@@ -104,6 +105,7 @@ with tf.Graph().as_default():
         cnn = DiseaseCNN(
             window_height=x_train.shape[1],
             num_features=x_train.shape[2],
+            num_nodes=list(map(int, FLAGS.num_nodes.split(","))),
             num_classes= 1,
             filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),
             num_filters=FLAGS.num_filters,
