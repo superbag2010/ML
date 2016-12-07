@@ -19,7 +19,6 @@ tf.flags.DEFINE_string("factor_value", "", "state value of factor to add in file
 
 # Model Hyperparameters
 tf.flags.DEFINE_string("num_nodes", "0", "The comma-separated number of nodes each of layer (default: '0')")
-tf.flags.DEFINE_integer("num_features", 21, "The number of feature attributes")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5,6,7", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.8, "Dropout keep probability (default: 0.5)")
@@ -27,7 +26,7 @@ tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 1)")
-tf.flags.DEFINE_integer("num_epochs", 200, "Number of training epochs (default: 200)")
+tf.flags.DEFINE_integer("num_epochs", 100, "Number of training epochs (default: 100)")
 tf.flags.DEFINE_integer("evaluate_every", 150, "Evaluate model on dev set after this many steps (default: 150)")
 tf.flags.DEFINE_integer("checkpoint_every", 150, "Save model after this many steps (default: 150)")
 
@@ -185,7 +184,7 @@ with tf.Graph().as_default():
             train_summary_writer.add_summary(summaries, step)
 
 
-        def dev_step(x_batch, y_batch, writer=None):
+        def dev_step(x_batch, y_batch, fd_result, writer=None):
             """
             Evaluates model on a dev set
             """
@@ -198,7 +197,9 @@ with tf.Graph().as_default():
                 [global_step, dev_summary_op, cnn.RMSE],
                 feed_dict)
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, RMSE {:g}".format(time_str, step, RMSE))
+            str_dev = "{}: step {}, RMSE {:g}".format(time_str, step, RMSE)
+            print(str_dev)
+            fd_result.write(str_dev + "\n")
             # add dev summary
             if writer:
                 writer.add_summary(summaries, step)
@@ -208,14 +209,18 @@ with tf.Graph().as_default():
         batches = processing_data.batch_iter(
             list(zip(x_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
         # Training loop. For each batch, one train step
+        dev_result_file = os.path.abspath(os.path.join(out_dir, "dev_result"))
+        fd = open(dev_result_file, "w")
         for batch in batches:
             x_batch, y_batch = zip(*batch)
             train_step(x_batch, y_batch)
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:
                 print("\nEvaluation:")
-                dev_step(x_dev, y_dev, writer=dev_summary_writer)
+                dev_step(x_dev, y_dev, fd, writer=dev_summary_writer)
                 print("")
             if current_step % FLAGS.checkpoint_every == 0:
                 path = saver.save(sess, checkpoint_prefix, global_step=current_step)
+                print("current_step = {}".format(current_step))
                 print("Saved model checkpoint to {}\n".format(path))
+        fd.close()
