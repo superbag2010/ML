@@ -22,6 +22,7 @@ Hyper Prameter
 
 - hidden layer -
 1. num_nodes            e.g. "60,45,30"
+("0" mean no hidden layer)
 
 - filter -
 1. filter_sizes         e.g. "3,4,5,6,7"
