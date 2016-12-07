@@ -4,10 +4,17 @@ machine learning project
 
 
 Before train and evaluation, must check following flag.
-1. window_height
-2. out_subdir
-3. factor_value
+1. window_height,               e.g. 7
+2. out_subdir,                  e.g. "num_NN_nodes"
+3. factor_value                 e.g. "60,45,30"
+-evaluation-
+4. checkpoint
+5. eval_train
 
-./train.py --out_subdir="<hyper parameter name>" --factor_value="<factor value>"
-./eval.py --checkpoint_dir="../../result_disease_cnn/num_NN_layer/<number>/checkpoints/" --eval_train="True"
+-training- e.g.
+./train.py --window_height=7 --out_subdir="num_NN_nodes" --factor_value="60,45,30"
+(result is saved in "../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>")
+
+-evaluation- e.g.
+./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint" --eval_train="True"
 
