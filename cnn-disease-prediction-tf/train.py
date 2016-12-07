@@ -46,7 +46,8 @@ FLAGS._parse_flags()    # add flag data
 print ("==========================================\nParameters:")
 
 # Print and save flag value
-out_dir = os.path.abspath(os.path.join("..", "..", "result_disease_cnn", FLAGS.out_subdir, FLAGS.factor_value))
+timestamp = str(int(time.time()))
+out_dir = os.path.abspath(os.path.join("..", "..", "result_disease_cnn", FLAGS.out_subdir, FLAGS.factor_value, timestamp))
 if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 flag_file = os.path.abspath(os.path.join(out_dir, "flag.conf"))
@@ -136,7 +137,6 @@ with tf.Graph().as_default():
         grad_summaries_merged = tf.merge_summary(grad_summaries)
 
         # Output directory for models and summaries
-       #timestamp = str(int(time.time()))
 #       out_dir = os.path.abspath(os.path.join(os.path.curdir, "result_disease_cnn", timestamp))
         print("Writing to {}\n".format(out_dir))
 
