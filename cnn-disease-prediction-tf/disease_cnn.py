@@ -71,24 +71,27 @@ class DiseaseCNN(object):
             self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
         # if dropout_keep_prob = 1.0, can use as eval model
 
+        # Hidden_NN layer
         pre_num_node = num_filters_total
         self.NN_result = [None] * (len(num_nodes) + 1)
         self.NN_result[0] = self.h_drop
-        # NN layer
-        for i, num_node in enumerate(num_nodes):
-            with tf.name_scope("Completely_connected_NN{}".format(i)):
+        for index, num_node in enumerate(num_nodes):
+            if num_node == 0:  
+                index = -1
+                break
+            with tf.name_scope("Completely_connected_NN{}".format(index+1)):
                 num_nodes = num_node
                 W = tf.get_variable(
-                    "W{}".format(i),
+                    "W{}".format(index+1),
                     shape = [pre_num_node, num_node],
                     initializer=tf.contrib.layers.xavier_initializer())
                 b = tf.Variable(tf.constant(0.1, shape=[num_node]), name="b")
                 l2_loss += tf.nn.l2_loss(W)
                 l2_loss += tf.nn.l2_loss(b)
-                self.NN_result[i+1] = tf.nn.xw_plus_b(self.NN_result[i], W, b, name="NN_result{}".format(i+1))
+                self.NN_result[index+1] = tf.nn.xw_plus_b(self.NN_result[index], W, b, name="NN_result{}".format(index+1))
                 pre_num_node = num_node
 
-        # Final (unnormalized) scores and predictions
+        # Final (unnormalized) scores and predictions(output nodes)
         with tf.name_scope("output"):
             W = tf.get_variable(
                 "W",
@@ -98,20 +101,22 @@ class DiseaseCNN(object):
             l2_loss += tf.nn.l2_loss(W)
             l2_loss += tf.nn.l2_loss(b)
             # tf.nn.l2_loss(a) = sum(a^2)/2, element-wise
-            self.scores = tf.nn.xw_plus_b(self.NN_result[-1], W, b, name="scores")
+            self.scores = tf.nn.xw_plus_b(self.NN_result[index+1], W, b, name="scores")
             # scores = XW + b
-            # scores = [value1 about window1, value2, ....]
-
-        # CalculateMean cross-entropy loss(as l2_reg_lambda, L2 reg is applied)
+            # scores = [integer1 about window1, i2, ....], integer mean result
+            # e.g. = [2300, 4000, 6800, ....]
+        """
         with tf.name_scope("loss"):
             losses = tf.square(tf.sub(self.scores, self.input_y))
             self.loss = tf.reduce_mean(losses) + l2_reg_lambda * l2_loss
-        # L2 reg => lambda*(w^2)/2
         # mean MSE
+        """
 
+        # CalculateMean cross-entropy loss(as l2_reg_lambda, L2 reg is applied)
         # Accuracy
         with tf.name_scope("RMSE"):
             subtraction = tf.sub(self.scores, self.input_y)
             deviation = tf.square(subtraction)
             MSE = tf.sqrt(deviation)
-            self.RMSE = tf.reduce_mean(MSE, name="RMSE")
+            self.RMSE = tf.reduce_mean(MSE) + l2_reg_lambda * l2_loss
+        # L2 reg => lambda*(w^2)/2
