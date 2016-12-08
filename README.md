@@ -38,6 +38,7 @@ Hyper Prameter
 
 etc.. planning to add
 activation function, learning rate
+
 ================================================================
 -training- e.g.
 ./train.py --window_height=7 --out_subdir="num_NN_nodes" --num_nodes="60,45,30" --factor_value="60,45,30"
