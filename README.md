@@ -15,14 +15,14 @@ Before train and evaluation, "must check" following flag.
 5. eval_train
 
 ================================================================
-Hyper Prameter
+- Hyper Prameter
 1. Data format
 - window_height
 - num_features
 
 2. hidden layer 
 - num_nodes            e.g. "60,45,30"
-("0" mean no hidden layer)
+- ("0" mean no hidden layer)
 
 3. filter 
 - filter_sizes         e.g. "3,4,5,6,7"
