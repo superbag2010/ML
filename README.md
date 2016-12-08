@@ -6,19 +6,19 @@ Can change variety flag and check in "<train_result>/flag.conf" file
 
 ================================================================
 Before train and evaluation, "must check" following flag.
-1. window_height                e.g. 7
-2. out_subdir(directory name)   e.g. "num_NN_nodes"
-3. factor_value(directory name) e.g. "60,45,30"
-4. num_features
--evaluation-
-4. checkpoint
-5. eval_train
+1. window_height                e.g. 7  
+2. out_subdir(directory name)   e.g. "num_NN_nodes"  
+3. factor_value(directory name) e.g. "60,45,30"  
+4. num_features  
+-evaluation-  
+4. checkpoint  
+5. eval_train  
 
 ================================================================
-- Hyper Prameter
-1. Data format
-- window_height
-- num_features
+\- Hyper Prameter  
+1. Data format  
+- window_height  
+- num_features  
 
 2. hidden layer 
 - num_nodes            e.g. "60,45,30"
