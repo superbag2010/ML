@@ -1,13 +1,12 @@
 # ML(version of tensorflow = 0.11.0rc1)
 
-##machine learning project
-- predict the number of cold treatment using evrionment data(temperature, etc)
-
-Can change variety flag and check in "<train_result>/flag.conf" file
+### machine learning project
+predict the number of cold treatment using evrionment data(temperature, etc)  
+ \- Can change variety flag and check in "<train_result>/flag.conf" file
 
 ================================================================
-## Before train and evaluation, "must check" following flag.  
-1. window_height                e.g. 7  
+### Before train and evaluation, "must check" following flag.  
+1. window_height   &nbsp        e.g. 7  
 2. out_subdir(directory name)   e.g. "num_NN_nodes"  
 3. factor_value(directory name) e.g. "60,45,30"  
 4. num_features  
@@ -16,7 +15,7 @@ Can change variety flag and check in "<train_result>/flag.conf" file
 5. eval_train  
 
 ================================================================
-## Hyper Prameter  
+### Hyper Prameter  
 1. Data format  
 \- window_height  
 \- num_features  
@@ -45,5 +44,5 @@ activation function, learning rate
 ./train.py --window_height=7 --out_subdir="num_NN_nodes" --num_nodes="60,45,30" --factor_value="60,45,30"  
 (result is saved in "../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>")  
 
-- evaluation- e.g.  
+\- evaluation- e.g.  
 ./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint" --eval_train="True"  
