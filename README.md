@@ -36,10 +36,11 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 \- batch_size           e.g. 1  
 \- num_epoches          e.g. 200  
 
-etc.. planning to add  
-activation function, learning rate  
+  etc.. planning to add  
+  activation function, learning rate  
 
 ================================================================
+### EXAMPLE
 \- training- e.g.  
 ./train.py --window_height=7 --out_subdir="num_NN_nodes" --num_nodes="60,45,30" --factor_value="60,45,30"  
 (result is saved in "../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>")  
