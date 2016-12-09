@@ -34,7 +34,7 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 
 5. training interval  
 \- batch_size           e.g. 1  
-\- num_epoches          e.g. 200  
+\- num_epochs          e.g. 200  
 
   etc.. planning to add  
   activation function, learning rate  

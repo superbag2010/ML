@@ -19,7 +19,7 @@ tf.flags.DEFINE_string("factor_value", "", "state value of factor to add in file
 
 # Model Hyperparameters
 tf.flags.DEFINE_string("num_nodes", "0", "The comma-separated number of nodes each of layer (default: '0')")
-tf.flags.DEFINE_string("filter_sizes", "3,4,5,6,7", "Comma-separated filter sizes (default: '3,4,5')")
+tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
 tf.flags.DEFINE_float("dropout_keep_prob", 0.8, "Dropout keep probability (default: 0.5)")
 tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 0.0)")

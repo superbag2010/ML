@@ -88,7 +88,7 @@ class DiseaseCNN(object):
                 b = tf.Variable(tf.constant(0.1, shape=[num_node]), name="b")
                 l2_loss += tf.nn.l2_loss(W)
                 l2_loss += tf.nn.l2_loss(b)
-                self.NN_result[index+1] = tf.nn.xw_plus_b(self.NN_result[index], W, b, name="NN_result{}".format(index+1))
+                self.NN_result[index+1] = tf.sigmoid(tf.nn.xw_plus_b(self.NN_result[index], W, b, name="NN_result{}".format(index+1)))
                 pre_num_node = num_node
 
         # Final (unnormalized) scores and predictions(output nodes)
