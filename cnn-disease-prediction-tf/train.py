@@ -26,7 +26,7 @@ tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 1)")
-tf.flags.DEFINE_integer("num_epochs", 1000, "Number of training epochs (default: 1000)")
+tf.flags.DEFINE_integer("num_epochs", 2000, "Number of training epochs (default: 1000)")
 tf.flags.DEFINE_integer("train_limit", 15, "train limit when there are no improvemnt in several vailidation steps. using as 'train_limit*evalutate_every', means step size limit (default: 15)")
 tf.flags.DEFINE_integer("evaluate_every", 200, "Evaluate model on dev set after this many steps (default: 150)")
 tf.flags.DEFINE_integer("checkpoint_every", 200, "Save model after this many steps (default: 150)")
@@ -179,7 +179,7 @@ with tf.Graph().as_default():
 
             # print data flow #
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, RMSE {:g}".format(time_str, step, RMSE))
+            #print("{}: step {}, RMSE {:g}".format(time_str, step, RMSE))
 
             # add train summary
             train_summary_writer.add_summary(summaries, step)
@@ -199,7 +199,7 @@ with tf.Graph().as_default():
                 feed_dict)
             time_str = datetime.datetime.now().isoformat()
             str_dev = "{}: step {}, RMSE {:g}".format(time_str, step, RMSE)
-            print(str_dev)
+            #print(str_dev)
             fd_result.write(str_dev + "\n")
             # add dev summary
             if writer:
@@ -216,12 +216,13 @@ with tf.Graph().as_default():
         # Training loop. For each batch, one train step
         dev_result_file = os.path.abspath(os.path.join(out_dir, "dev_result"))
         fd = open(dev_result_file, "w")
+        print("Training...")
         for batch in batches:
             x_batch, y_batch = zip(*batch)
             train_step(x_batch, y_batch)
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:
-                print("\nEvaluation:")
+                #print("\nEvaluation:")
                 RMSE = dev_step(x_dev, y_dev, fd, writer=dev_summary_writer)
                 if (RMSE_min > RMSE):
                     RMSE_min = RMSE
@@ -232,11 +233,12 @@ with tf.Graph().as_default():
                     RMSE_result_path = os.path.abspath(os.path.join(out_dir, "..", "RMSE_result.txt"))
                     with open(RMSE_result_path, 'a') as f:
                         f.write(timestamp + "," + str(RMSE_min) + "\n")
+                        fd.write("RMSE_min : " + str(RMSE_min) + "\n")
                     print("min(Validation RMSE) is {}".format(RMSE_min))
                     break
-                print("")
+                #print("")
             if current_step % FLAGS.checkpoint_every == 0:
                 path = saver.save(sess, checkpoint_prefix, global_step=current_step)
-                print("current_step = {}".format(current_step))
-                print("Saved model checkpoint to {}\n".format(path))
+                #print("current_step = {}".format(current_step))
+                #print("Saved model checkpoint to {}\n".format(path))
         fd.close()
