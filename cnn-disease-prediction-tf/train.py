@@ -27,7 +27,7 @@ tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 1)")
 tf.flags.DEFINE_integer("num_epochs", 1000, "Number of training epochs (default: 1000)")
-tf.flags.DEFINE_integer("train_limit", 15, "train limit when there are no improvemnt in several vailidation steps. using as 'train_limit*evaluteate_every', means step size limit (default: 15)")
+tf.flags.DEFINE_integer("train_limit", 15, "train limit when there are no improvemnt in several vailidation steps. using as 'train_limit*evalutate_every', means step size limit (default: 15)")
 tf.flags.DEFINE_integer("evaluate_every", 200, "Evaluate model on dev set after this many steps (default: 150)")
 tf.flags.DEFINE_integer("checkpoint_every", 200, "Save model after this many steps (default: 150)")
 

@@ -14,7 +14,31 @@
 #./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/0/window_height" --num_nodes="0" --factor_value="2" --num_epochs=500 --filter_sizes="1,2"
 
 
-./train.py --window_height=1 --out_subdir="sigmoid/num_NN_nodes/0/window_height/1" --num_nodes="0" --filter_sizes="1"
-./train.py --window_height=1 --out_subdir="sigmoid/num_NN_nodes/0/window_height/1" --num_nodes="0" --filter_sizes="1"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/250/" --num_nodes="250" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/250/" --num_nodes="250" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/250/"
 
-./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/0/window_height/1"
+
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/150/" --num_nodes="150" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/150/" --num_nodes="150" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/150/"
+
+
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/60/" --num_nodes="60" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/60/" --num_nodes="60" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/60/"
+
+
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/320,30/" --num_nodes="320,30" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/320,30/" --num_nodes="320,30" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/320,30/"
+
+
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/280,50/" --num_nodes="280,50" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/280,50/" --num_nodes="280,50" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/280,50/"
+
+
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/220,100/" --num_nodes="220,100" --filter_sizes="1,2"
+./train.py --window_height=2 --out_subdir="sigmoid/num_NN_nodes/220,100/" --num_nodes="220,100" --filter_sizes="1,2"
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/220,100/"
