@@ -63,9 +63,13 @@ out_path = os.path.join("./", "test.csv")
 
 
 print("==============================")
-score = [[1], [2], [3]]
-print(score)
-scores = list()
+score = np.array([[1], [2], [3]])
+score = score[[2,1,0]]
+print(score[1:2])
+scores = [1,2,3]
+print(scores[1:2])
+print("")
 for i in score:
     scores.append(i)
     print(scores)
+
