@@ -229,6 +229,9 @@ with tf.Graph().as_default():
                 if ((step_min - current_step) > train_step_limit):
                     print("current_step = {}".format(current_step))
                     print("training is ended....")
+                    RMSE_result_path = os.path.abspath(os.path.join(out_dir, "..", "RMSE_result.txt"))
+                    with open(RMSE_result_path, 'a') as f:
+                        f.write(timestamp + "," + str(RMSE_min) + "\n")
                     print("min(Validation RMSE) is {}".format(RMSE_min))
                     break
                 print("")
