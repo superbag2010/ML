@@ -8,7 +8,7 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 ### Before train and evaluation, "must check" following flag.  
 1. window_height   &nbsp        e.g. 7  
 2. out_subdir(directory name)   e.g. "num_NN_nodes"  
-3. factor_value(directory name) e.g. "60,45,30"  
+3. factor_value(directory name, it can be substituted by out_subdir) e.g. "60,45,30"
 4. num_features  
 -evaluation-  
 4. checkpoint  
@@ -42,8 +42,11 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 ================================================================
 ### EXAMPLE
 \- training- e.g.  
-./train.py --window_height=7 --out_subdir="num_NN_nodes" --num_nodes="60,45,30" --factor_value="60,45,30"  
+./train.py --window_height=7 --out_subdir="num_NN_nodes/64,45,30" --num_nodes="60,45,30"
 (result is saved in "../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>")  
 
 \- evaluation- e.g.  
-./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint" --eval_train="True"  
+./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint"
+
+\- training at once and cross validation- e.g.
+./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/0/window_height/1"
