@@ -26,9 +26,10 @@ tf.flags.DEFINE_float("l2_reg_lambda", 0.0, "L2 regularization lambda (default: 
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 1, "Batch Size (default: 1)")
-tf.flags.DEFINE_integer("num_epochs", 100, "Number of training epochs (default: 100)")
-tf.flags.DEFINE_integer("evaluate_every", 150, "Evaluate model on dev set after this many steps (default: 150)")
-tf.flags.DEFINE_integer("checkpoint_every", 150, "Save model after this many steps (default: 150)")
+tf.flags.DEFINE_integer("num_epochs", 1000, "Number of training epochs (default: 1000)")
+tf.flags.DEFINE_integer("train_limit", 15, "train limit when there are no improvemnt in several vailidation steps. using as 'train_limit*evaluteate_every', means step size limit (default: 15)")
+tf.flags.DEFINE_integer("evaluate_every", 200, "Evaluate model on dev set after this many steps (default: 150)")
+tf.flags.DEFINE_integer("checkpoint_every", 200, "Save model after this many steps (default: 150)")
 
 
 # Misc Parameters
@@ -79,7 +80,7 @@ y_tmp = np.reshape(y_tmp, (-1, 1))
 
 # Randomly shuffle data
 x_tmp = np.array(x_windows)
-np.random.seed(10)
+#np.random.seed(10)
 shuffle_indices = np.random.permutation(np.arange(len(y)))
 x_shuffled = x_tmp[shuffle_indices]
 y_shuffled = y_tmp[shuffle_indices]
@@ -203,9 +204,13 @@ with tf.Graph().as_default():
             # add dev summary
             if writer:
                 writer.add_summary(summaries, step)
+            return RMSE
 
 
         # Generate batches
+        step_min = 0
+        RMSE_min = 1000000
+        train_step_limit = FLAGS.train_limit * FLAGS.evaluate_every
         batches = processing_data.batch_iter(
             list(zip(x_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
         # Training loop. For each batch, one train step
@@ -217,7 +222,15 @@ with tf.Graph().as_default():
             current_step = tf.train.global_step(sess, global_step)
             if current_step % FLAGS.evaluate_every == 0:
                 print("\nEvaluation:")
-                dev_step(x_dev, y_dev, fd, writer=dev_summary_writer)
+                RMSE = dev_step(x_dev, y_dev, fd, writer=dev_summary_writer)
+                if (RMSE_min > RMSE):
+                    RMSE_min = RMSE
+                    step_min = current_step
+                if ((step_min - current_step) > train_step_limit):
+                    print("current_step = {}".format(current_step))
+                    print("training is ended....")
+                    print("min(Validation RMSE) is {}".format(RMSE_min))
+                    break
                 print("")
             if current_step % FLAGS.checkpoint_every == 0:
                 path = saver.save(sess, checkpoint_prefix, global_step=current_step)
