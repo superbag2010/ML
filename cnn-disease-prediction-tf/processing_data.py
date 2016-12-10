@@ -47,7 +47,10 @@ def grouping_data(x_features, y, window_height):
 
     for i in range(num_days):
         index_end = i + window_height
-        x_windows = x_windows + [x_features[i:index_end]]
+        if (window_height != 1):
+            x_windows = x_windows + [x_features[i:index_end]]
+        else:
+            x_windows.append([x_features[i]])
         if (index_end >= num_days):
             break
     return [x_windows, y]
@@ -56,8 +59,24 @@ def batch_iter(data, batch_size, num_epochs, shuffle=False):
     """
     Generates a batch iterator for a dataset.
     """
-    data = np.array(data)
+
     data_size = len(data)
+
+    # No shuffle
+    if batch_size == 1:
+        num_batches_per_epoch = int(len(data))
+    else:
+        num_batches_per_epoch = int(len(data)/batch_size) + 1
+    for epoch in range(num_epochs):
+        for batch_num in range(num_batches_per_epoch):
+            start_index = batch_num * batch_size
+            end_index = min((batch_num + 1) * batch_size, data_size)
+            yield shuffled_data[start_index:end_index]
+    # No shuffle
+    
+    """
+    data = np.array(data)
+
     if batch_size == 1:
         num_batches_per_epoch = int(len(data))
     else:
@@ -73,7 +92,7 @@ def batch_iter(data, batch_size, num_epochs, shuffle=False):
             start_index = batch_num * batch_size
             end_index = min((batch_num + 1) * batch_size, data_size)
             yield shuffled_data[start_index:end_index]
-
+    """
 
 if __name__ == "__main__":
     """
@@ -83,16 +102,17 @@ if __name__ == "__main__":
     print (x[3])
 #   print (l[0])
     
-    x_windows, y = grouping_data(x, y, 3)
+    x_windows, y = grouping_data(x, y, 1)
     k = -1
     y_array = np.array(y)
     y_array = np.reshape(y_array, (-1, 1))
     print("y_array.shape = {}".format(y_array.shape))
     print("x[{}] = {}, y[{}] = {}".format(k, x_windows[k], k, y[k]))
 
-    gs = batch_iter(list(zip(x_windows, y)), 3, 2)
-    """
+    gs = batch_iter(list(zip(x_windows, y)), 1, 2)
+    
     for g in gs:
         print(g)
+        print("g.shape = {}".format(g.shape))
         a = input()
-    """
+    
