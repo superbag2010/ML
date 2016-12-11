@@ -211,6 +211,7 @@ with tf.Graph().as_default():
         step_min = 0
         RMSE_min = 1000000
         train_step_limit = FLAGS.train_limit * FLAGS.evaluate_every
+        RMSE_result_path = os.path.abspath(os.path.join(out_dir, "..", "RMSE_result.txt"))
         batches = processing_data.batch_iter(
             list(zip(x_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
         # Training loop. For each batch, one train step
@@ -230,7 +231,6 @@ with tf.Graph().as_default():
                 if ((step_min - current_step) > train_step_limit):
                     print("current_step = {}".format(current_step))
                     print("training is ended....")
-                    RMSE_result_path = os.path.abspath(os.path.join(out_dir, "..", "RMSE_result.txt"))
                     print("min(Validation RMSE) is {}".format(RMSE_min))
                     break
                 #print("")
