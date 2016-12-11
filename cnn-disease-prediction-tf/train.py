@@ -13,7 +13,7 @@ import datetime
 # ============================================================
 # Data loading params
 tf.flags.DEFINE_string("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("data_file_location", "./data/data.csv", "Data source")
+tf.flags.DEFINE_string("data_file_location", "./data/refined_data.csv", "Data source")
 tf.flags.DEFINE_string("out_subdir", "", "state sub-directory")
 tf.flags.DEFINE_string("factor_value", "", "state value of factor to add in file name")
 
