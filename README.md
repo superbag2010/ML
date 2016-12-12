@@ -8,11 +8,10 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 ### Before train and evaluation, "must check" following flag.  
 1. window_height   &nbsp        e.g. 7  
 2. out_subdir(directory name)   e.g. "num_NN_nodes"  
-3. factor_value(directory name, it can be substituted by out_subdir) e.g. "60,45,30"
-4. num_features  
+3. filter_size                  e.g. "1,2,3"
 -evaluation-  
-4. checkpoint  
-5. eval_train  
+4. data_file_location
+5. checkpoint  
 
 ================================================================
 ### Hyper Prameter  
@@ -46,7 +45,9 @@ predict the number of cold treatment using evrionment data(temperature, etc)
 (result is saved in "../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>")  
 
 \- evaluation- e.g.  
-./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint"
+./eval.py --window_height=7 --checkpoint_dir="../../result_disease_cnn/num_NN_nodes/60,45,30/<datetime>/checkpoint" --data_file_location="./data/refined_data.csv"
 
 \- training at once and cross validation- e.g.
 ./mean_RMSE.py "../../result_disease_cnn/sigmoid/num_NN_nodes/0/window_height/1"
+
+\- tensorboard --logdir="../../result_disease_cnn/refined_data/0/1481498168/summaries/"
