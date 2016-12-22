@@ -80,7 +80,6 @@ class DiseaseCNN(object):
                 index = -1
                 break
             with tf.name_scope("Completely_connected_NN{}".format(index+1)):
-                num_nodes = num_node
                 W = tf.get_variable(
                     "W{}".format(index+1),
                     shape = [pre_num_node, num_node],
